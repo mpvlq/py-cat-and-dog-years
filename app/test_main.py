@@ -27,12 +27,17 @@ def test_should_return(
     ), (f"Cat age in human years should be {animal_age_in_human_years[0]}"
         f" and dog age should be {animal_age_in_human_years[1]}")
 
+
 @pytest.mark.parametrize(
     "cat_age, dog_age, expected_error",
     [
         pytest.param("hej", -1, TypeError, id="values should be integer"),
     ]
 )
-def test_raising_errors_correctly(cat_age, dog_age, expected_error) -> None:
+def test_raising_errors_correctly(
+        cat_age: int,
+        dog_age: int,
+        expected_error: Exception
+) -> None:
     with pytest.raises(expected_error):
         get_human_age(cat_age, dog_age)
