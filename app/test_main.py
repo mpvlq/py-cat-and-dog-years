@@ -7,6 +7,7 @@ from app.main import get_human_age
     "cat_age, dog_age, animal_age_in_human_years",
     [
         pytest.param(0, 0, [0, 0], id="0 years"),
+        pytest.param(-1, -1, [0, 0], id="negative age"),
         pytest.param(14, 14, [0, 0], id="close to 15"),
         pytest.param(15, 15, [1, 1], id="one year"),
         pytest.param(23, 23, [1, 1], id="close to 24"),
@@ -25,3 +26,13 @@ def test_should_return(
         get_human_age(cat_age, dog_age) == animal_age_in_human_years
     ), (f"Cat age in human years should be {animal_age_in_human_years[0]}"
         f" and dog age should be {animal_age_in_human_years[1]}")
+
+@pytest.mark.parametrize(
+    "cat_age, dog_age, expected_error",
+    [
+        pytest.param("hej", -1, TypeError, id="values should be integer"),
+    ]
+)
+def test_raising_errors_correctly(cat_age, dog_age, expected_error) -> None:
+    with pytest.raises(expected_error):
+        get_human_age(cat_age, dog_age)

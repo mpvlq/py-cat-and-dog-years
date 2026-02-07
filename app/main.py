@@ -20,3 +20,6 @@ def get_human_age(cat_age: int, dog_age: int) -> list:
         converted_ages.append(animal_ages[1])
 
     return converted_ages
+
+
+print(get_human_age(-1, -4))
