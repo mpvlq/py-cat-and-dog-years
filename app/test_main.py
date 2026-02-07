@@ -1,43 +1,27 @@
+import pytest
+
 from app.main import get_human_age
 
 
-def test_should_return_list() -> None:
+@pytest.mark.parametrize(
+    "cat_age, dog_age, animal_age_in_human_years",
+    [
+        pytest.param(0, 0, [0, 0], id="0 years"),
+        pytest.param(14, 14, [0, 0], id="close to 15"),
+        pytest.param(15, 15, [1, 1], id="one year"),
+        pytest.param(23, 23, [1, 1], id="close to 24"),
+        pytest.param(24, 24, [2, 2], id="two years"),
+        pytest.param(27, 27, [2, 2], id="still two years"),
+        pytest.param(28, 28, [3, 2], id="cat and dog years differ"),
+        pytest.param(100, 100, [21, 17], id="high value")
+    ]
+)
+def test_should_return(
+        cat_age: int,
+        dog_age: int,
+        animal_age_in_human_years: list
+) -> None:
     assert (
-        type(get_human_age(25, 25)) == list
-    ), "Function should return a list."
-
-
-def test_should_return_list_with_2_params() -> None:
-    assert (
-        len(get_human_age(25, 25)) == 2
-    ), "Function should return a list with 2 parameters."
-
-
-def test_should_less_than_15_animal_years_equal_to_0_human_year() -> None:
-    assert (
-        get_human_age(11, 1) == [0, 0]
-    ), "Less than 15 animal years should be equal to 0 human year."
-
-
-def test_should_15_animal_years_equal_to_1_human_year() -> None:
-    assert (
-        get_human_age(15, 15) == [1, 1]
-    ), "15 animal years should be equal to 1 human year."
-
-
-def test_should_next_9_years_after_15_give_1_more_human_year() -> None:
-    assert (
-        get_human_age(24, 25) == [2, 2]
-    ), "Next 9 years after 15 should be equal to 2 human years."
-
-
-def test_should_give_1_more_human_year_after_every_4_cat_years() -> None:
-    assert (
-        get_human_age(28, 25) == [3, 2]
-    ), "Every 4 years after 24 should add 1 extra human year."
-
-
-def test_should_give_1_more_human_year_after_every_5_dog_years() -> None:
-    assert (
-        get_human_age(100, 100) == [21, 17]
-    ), "Every 5 years after 24 should add 1 extra human year."
+        get_human_age(cat_age, dog_age) == animal_age_in_human_years
+    ), (f"Cat age in human years should be {animal_age_in_human_years[0]}"
+        f" and dog age should be {animal_age_in_human_years[1]}")
